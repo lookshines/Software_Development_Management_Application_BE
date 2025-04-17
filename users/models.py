@@ -24,6 +24,7 @@ class User(AbstractUser):
 ]
     
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, default=BACKEND_DEVELOPER)
+
     
     def __str__(self):
         return f"{self.username} - {self.role}"
@@ -41,3 +42,14 @@ class Project(models.Model):
     
     def __str__(self):
         return self.project_name
+    
+class UserProfile(models.Model):
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    profile_pic = models.ImageField(upload_to='profile_pictures', null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
+    linkedin_link = models.URLField(null=True, blank=True)
+    github_link = models.URLField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.username
